@@ -12,9 +12,10 @@ namespace vulkano
 	public:
 		struct WindowSettings
 		{
-			int width         = 0;
-			int height        = 0;
-			std::string title = "";
+			int width                   = 0;
+			int height                  = 0;
+			std::uint32_t global_layers = 0;
+			std::string title           = "";
 		};
 
 		Window(const WindowSettings& window_settings, const VkApplicationInfo& vulkan_settings);

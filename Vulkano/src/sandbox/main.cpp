@@ -29,8 +29,6 @@ private:
 	vk::Window m_window;
 };
 
-// https://vulkan-tutorial.com/en/Drawing_a_triangle/Setup/Instance
-
 int main()
 {
 	// clang-format off
@@ -42,6 +40,7 @@ int main()
 		({
 			.width  = 1280,
 		    .height = 720,
+			.global_layers = 0,
 		    .title  = "Sandbox"
 		},
 		{
