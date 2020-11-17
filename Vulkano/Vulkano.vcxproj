@@ -24,6 +24,8 @@
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <EnableASAN>false</EnableASAN>
+    <UseOfMfc>false</UseOfMfc>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -31,6 +33,8 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -66,7 +70,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>D:\Vulkan\1.2.154.1\Include;src/;../dependencies/glfw/include/;../dependencies/glm/include/;../dependencies/stb/include/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Vulkan\1.2.154.1\Include;src/;../dependencies/glfw/include/;../dependencies/glm/include/;../dependencies/stb/include/;../dependencies/c++20/fmt/include/;</AdditionalIncludeDirectories>
       <EnablePREfast>true</EnablePREfast>
       <AdditionalOptions>/experimental:external /external:anglebrackets /external:W0 /bigobj %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -95,7 +99,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>D:\Vulkan\1.2.154.1\Include;src/;../dependencies/glfw/include/;../dependencies/glm/include/;../dependencies/stb/include/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Vulkan\1.2.154.1\Include;src/;../dependencies/glfw/include/;../dependencies/glm/include/;../dependencies/stb/include/;../dependencies/c++20/fmt/include/;</AdditionalIncludeDirectories>
       <EnablePREfast>true</EnablePREfast>
       <AdditionalOptions>/experimental:external /external:anglebrackets /external:W0 /bigobj %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -107,6 +111,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
+      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,12 +123,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\dependencies\c++20\fmt\src\format.cc" />
+    <ClCompile Include="..\dependencies\c++20\fmt\src\os.cc" />
     <ClCompile Include="..\dependencies\stb\stb.c" />
     <ClCompile Include="src\sandbox\main.cpp" />
     <ClCompile Include="src\vulkano\core\Window.cpp" />
+    <ClCompile Include="src\vulkano\utils\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vulkano\core\Window.hpp" />
+    <ClInclude Include="src\vulkano\utils\Log.hpp" />
+    <ClInclude Include="src\vulkano\utils\Meta.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodeAnalysis.ruleset" />
