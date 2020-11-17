@@ -1,7 +1,9 @@
 # Vulkano
-[![Build Status](https://ci.appveyor.com/api/projects/status/o574pgriq1okej6y?svg=true)](https://ci.appveyor.com/project/reworks/vulkano)
-
 C++20 Vulkan renderer built for learning purposes.
+
+### Limitations:
+- Only supports 1 GPU.
+- Does not support Integrated GPUs.
 
 ### Building
 

@@ -137,6 +137,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodeAnalysis.ruleset" />
+    <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
