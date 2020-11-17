@@ -12,10 +12,10 @@ namespace vulkano
 	public:
 		struct WindowSettings
 		{
-			int width                   = 0;
-			int height                  = 0;
-			std::uint32_t global_layers = 0;
-			std::string title           = "";
+			int width         = 0;
+			int height        = 0;
+			bool enable_debug = false;
+			std::string title = "";
 		};
 
 		Window(const WindowSettings& window_settings, const VkApplicationInfo& vulkan_settings);
@@ -26,9 +26,14 @@ namespace vulkano
 	private:
 		Window() = delete;
 
+		[[nodiscard]] bool valid_device(VkPhysicalDevice device);
+
 	private:
+		bool m_debug_mode;
 		GLFWwindow* m_window;
-		VkInstance m_vkinstance;
+		VkInstance m_vk_instance;
+		VkDebugUtilsMessengerEXT m_debug_messenger;
+		VkPhysicalDevice m_gpu;
 	};
 } // namespace vulkano
 

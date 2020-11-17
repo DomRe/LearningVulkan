@@ -40,7 +40,7 @@ int main()
 		({
 			.width  = 1280,
 		    .height = 720,
-			.global_layers = 0,
+			.enable_debug = true,
 		    .title  = "Sandbox"
 		},
 		{
