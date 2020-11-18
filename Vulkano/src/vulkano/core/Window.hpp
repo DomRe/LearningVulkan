@@ -5,6 +5,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "vulkano/utils/Utility.hpp"
+
 namespace vulkano
 {
 	class Window final
@@ -23,10 +25,14 @@ namespace vulkano
 
 		void poll_events();
 
+		[[nodiscard]] const bool is_open();
+		void close();
+
 	private:
 		Window() = delete;
 
-		[[nodiscard]] bool valid_device(VkPhysicalDevice device);
+		[[nodiscard]] QueueFamilyIndexs get_family_indexs(VkPhysicalDevice device);
+		[[nodiscard]] const bool valid_device(VkPhysicalDevice device);
 
 	private:
 		bool m_debug_mode;
@@ -34,6 +40,8 @@ namespace vulkano
 		VkInstance m_vk_instance;
 		VkDebugUtilsMessengerEXT m_debug_messenger;
 		VkPhysicalDevice m_gpu;
+		VkDevice m_gpu_interface;
+		VkQueue m_graphics_queue;
 	};
 } // namespace vulkano
 

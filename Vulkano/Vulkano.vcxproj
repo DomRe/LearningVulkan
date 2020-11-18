@@ -129,11 +129,13 @@
     <ClCompile Include="src\sandbox\main.cpp" />
     <ClCompile Include="src\vulkano\core\Window.cpp" />
     <ClCompile Include="src\vulkano\utils\Log.cpp" />
+    <ClCompile Include="src\vulkano\utils\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vulkano\core\Window.hpp" />
     <ClInclude Include="src\vulkano\utils\Log.hpp" />
     <ClInclude Include="src\vulkano\utils\Meta.hpp" />
+    <ClInclude Include="src\vulkano\utils\Utility.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodeAnalysis.ruleset" />
@@ -146,6 +148,6 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <PropertyGroup Condition="'$(Language)'=='C++'">
-    <CAExcludePath>D:\git\Vulkano\dependencies\stb\include;D:\git\Vulkano\dependencies\glm\include;D:\git\Vulkano\dependencies\glfw\include;D:\Vulkan\1.2.154.1\Include;$(CAExcludePath)</CAExcludePath>
+    <CAExcludePath>D:\git\Vulkano\dependencies\stb\include;D:\git\Vulkano\dependencies\glm\include;D:\git\Vulkano\dependencies\glfw\include;D:\Vulkan\1.2.154.1\Include;D:\git\Vulkano\dependencies\c++20\fmt\include;D:\git\Vulkano\dependencies\c++20\fmt\src;$(CAExcludePath)</CAExcludePath>
   </PropertyGroup>
 </Project>

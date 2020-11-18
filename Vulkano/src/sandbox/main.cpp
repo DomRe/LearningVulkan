@@ -19,6 +19,11 @@ public:
 
 	int run()
 	{
+		while (m_window.is_open())
+		{
+			m_window.poll_events();
+		}
+
 		return EXIT_SUCCESS;
 	}
 
