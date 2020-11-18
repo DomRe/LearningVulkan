@@ -17,7 +17,7 @@ Install requirements:
     - Desktop development with C++
     - Game development with C++
 2. Latest Windows 10 SDK (10.0.19041.0 min).
-3. Vulkan SDK from LunarG.
+3. Vulkan SDK from LunarG. Version 1.2+.
 ```
 ```
 Building:

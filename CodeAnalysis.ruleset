@@ -80,7 +80,7 @@
     <Rule Id="C26465" Action="Warning" />
     <Rule Id="C26466" Action="Warning" />
     <Rule Id="C26471" Action="Warning" />
-    <Rule Id="C26472" Action="Warning" />
+    <Rule Id="C26472" Action="None" />
     <Rule Id="C26473" Action="Warning" />
     <Rule Id="C26474" Action="Warning" />
     <Rule Id="C26475" Action="Warning" />
