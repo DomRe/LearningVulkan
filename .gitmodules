@@ -1,3 +1,0 @@
-[submodule "dependencies/c++20/fmt"]
-	path = dependencies/c++20/fmt
-	url = https://github.com/fmtlib/fmt.git
