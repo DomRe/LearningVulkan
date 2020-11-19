@@ -1,1 +1,4 @@
 - Proper Documentation.
+
+https://vulkan-tutorial.com/en/Drawing_a_triangle/Presentation/Swap_chain
+Choosing the right settings for the swap chain

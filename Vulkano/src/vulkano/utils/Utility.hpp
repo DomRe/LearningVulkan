@@ -10,13 +10,15 @@ namespace vulkano
 	///
 	struct QueueFamilyIndexs
 	{
-		std::optional<std::uint32_t> m_graphics = std::nullopt;
+		std::optional<std::uint32_t> m_graphics           = std::nullopt;
+		std::optional<std::uint32_t> m_present_to_surface = std::nullopt;
 
 		///
 		/// Checks all queue familys and makes sure they are set.
 		///
 		[[nodiscard]] const bool has_all_required();
 	};
+
 } // namespace vulkano
 
 #endif

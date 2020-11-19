@@ -1,14 +1,14 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "vulkano/core/Window.hpp"
+#include <GLFW/glfw3.h>
 
-namespace vk = vulkano;
+#include "vulkano/core/Window.hpp"
 
 class Sandbox
 {
 public:
-	Sandbox(const vk::Window::WindowSettings& window_settings, const VkApplicationInfo& vulkan_settings)
+	Sandbox(const vulkano::Window::WindowSettings& window_settings, const VkApplicationInfo& vulkan_settings)
 	    : m_window(window_settings, vulkan_settings)
 	{
 	}
@@ -31,7 +31,7 @@ private:
 	Sandbox() = delete;
 
 private:
-	vk::Window m_window;
+	vulkano::Window m_window;
 };
 
 int main()

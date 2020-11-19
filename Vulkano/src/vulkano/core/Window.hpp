@@ -2,6 +2,7 @@
 #define VULKANO_WINDOW_HPP_
 
 #include <string_view>
+#include <span>
 
 #include <GLFW/glfw3.h>
 
@@ -12,6 +13,9 @@ namespace vulkano
 	class Window final
 	{
 	public:
+		///
+		/// Simplifys passing around window settings.
+		///
 		struct WindowSettings
 		{
 			int width         = 0;
@@ -29,10 +33,22 @@ namespace vulkano
 		void close();
 
 	private:
+		///
+		/// Stores information about SwapChain support that can be easily passed around.
+		///
+		struct SwapChainInfo
+		{
+			VkSurfaceCapabilitiesKHR capabilities;
+
+			std::vector<VkSurfaceFormatKHR> formats;
+			std::vector<VkPresentModeKHR> present_modes;
+		};
+
 		Window() = delete;
 
 		[[nodiscard]] QueueFamilyIndexs get_family_indexs(VkPhysicalDevice device);
-		[[nodiscard]] const bool valid_device(VkPhysicalDevice device);
+		[[nodiscard]] const bool valid_device(VkPhysicalDevice device, std::span<const char*> req_extensions);
+		[[nodiscard]] SwapChainInfo query_swap_chain(VkPhysicalDevice device);
 
 	private:
 		bool m_debug_mode;
@@ -42,6 +58,8 @@ namespace vulkano
 		VkPhysicalDevice m_gpu;
 		VkDevice m_gpu_interface;
 		VkQueue m_graphics_queue;
+		VkSurfaceKHR m_surface;
+		VkQueue m_surface_queue;
 	};
 } // namespace vulkano
 
