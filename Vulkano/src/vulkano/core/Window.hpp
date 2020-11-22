@@ -3,6 +3,7 @@
 
 #include <string_view>
 #include <span>
+#include <vector>
 
 #include <GLFW/glfw3.h>
 
@@ -49,6 +50,9 @@ namespace vulkano
 		[[nodiscard]] QueueFamilyIndexs get_family_indexs(VkPhysicalDevice device);
 		[[nodiscard]] const bool valid_device(VkPhysicalDevice device, std::span<const char*> req_extensions);
 		[[nodiscard]] SwapChainInfo query_swap_chain(VkPhysicalDevice device);
+		[[nodiscard]] VkSurfaceFormatKHR choose_swap_format(std::span<VkSurfaceFormatKHR> avaliable);
+		[[nodiscard]] VkPresentModeKHR choose_swap_mode(std::span<VkPresentModeKHR> avaliable);
+		[[nodiscard]] VkExtent2D choose_swap_extent(const VkSurfaceCapabilitiesKHR& capabilities);
 
 	private:
 		bool m_debug_mode;
@@ -60,6 +64,11 @@ namespace vulkano
 		VkQueue m_graphics_queue;
 		VkSurfaceKHR m_surface;
 		VkQueue m_surface_queue;
+		VkSwapchainKHR m_swap_chain;
+		VkSurfaceFormatKHR m_swap_format;
+		VkPresentModeKHR m_swap_mode;
+
+		std::vector<VkImage> m_swapchain_images;
 	};
 } // namespace vulkano
 

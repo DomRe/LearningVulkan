@@ -202,6 +202,62 @@ namespace vulkano
 						{
 							vkGetDeviceQueue(m_gpu_interface, qfi.m_graphics.value(), 0, &m_graphics_queue);
 							vkGetDeviceQueue(m_gpu_interface, qfi.m_present_to_surface.value(), 0, &m_surface_queue);
+
+							SwapChainInfo swap_info = query_swap_chain(m_gpu);
+							m_swap_format = choose_swap_format(swap_info.formats);
+							m_swap_mode = choose_swap_mode(swap_info.present_modes);
+							const auto extent = choose_swap_extent(swap_info.capabilities);
+
+							std::uint32_t image_count = swap_info.capabilities.minImageCount + 1;
+							if ((swap_info.capabilities.maxImageCount > 0) && (image_count > swap_info.capabilities.maxImageCount))
+							{
+								image_count = swap_info.capabilities.maxImageCount;
+							}
+
+							VkSwapchainCreateInfoKHR create_swapchain_info
+							{
+								.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
+								.pNext = nullptr,
+								.flags = 0,
+								.surface = m_surface,
+								.minImageCount = image_count,
+								.imageFormat = m_swap_format.format,
+								.imageColorSpace = m_swap_format.colorSpace,
+								.imageExtent = extent,
+								.imageArrayLayers = 1,
+								.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
+								.preTransform = swap_info.capabilities.currentTransform,
+								.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
+								.presentMode = m_swap_mode,
+								.clipped = VK_TRUE,
+								.oldSwapchain = VK_NULL_HANDLE
+							};
+
+							std::array<std::uint32_t, 2> qfi_indexs = { qfi.m_graphics.value() , qfi.m_present_to_surface.value() };
+							if (qfi_indexs[0] != qfi_indexs[1])
+							{
+								create_swapchain_info.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+								create_swapchain_info.queueFamilyIndexCount = static_cast<std::uint32_t>(qfi_indexs.size());
+								create_swapchain_info.pQueueFamilyIndices = qfi_indexs.data();
+							}
+							else
+							{
+								create_swapchain_info.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+								create_swapchain_info.queueFamilyIndexCount = 0;
+								create_swapchain_info.pQueueFamilyIndices = nullptr;
+							}
+
+							if (vkCreateSwapchainKHR(m_gpu_interface, &create_swapchain_info, nullptr, &m_swap_chain) != VK_SUCCESS)
+							{
+								VK_LOG(VK_THROW, "Failed to create window swap chain.");
+							}
+							else
+							{
+								vkGetSwapchainImagesKHR(m_gpu_interface, m_swap_chain, &image_count, nullptr);
+
+								m_swapchain_images.resize(image_count);
+								vkGetSwapchainImagesKHR(m_gpu_interface, m_swap_chain, &image_count, m_swapchain_images.data());
+							}
 						}
 					}
 				}
@@ -211,6 +267,7 @@ namespace vulkano
 
 	Window::~Window()
 	{
+		vkDestroySwapchainKHR(m_gpu_interface, m_swap_chain, nullptr);
 		vkDestroyDevice(m_gpu_interface, nullptr);
 
 		if (m_debug_mode)
@@ -322,8 +379,6 @@ namespace vulkano
 			auto swap_chain_info = query_swap_chain(device);
 			result = (!swap_chain_info.formats.empty()) && (!swap_chain_info.present_modes.empty());
 		}
-
-
 		return result;
 	}
 
@@ -352,5 +407,54 @@ namespace vulkano
 		}
 
 		return std::move(info);
+	}
+
+	VkSurfaceFormatKHR Window::choose_swap_format(std::span<VkSurfaceFormatKHR> avaliable)
+	{
+		for (const auto& format : avaliable)
+		{
+			if (format.format == VK_FORMAT_B8G8R8A8_SRGB && format.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+			{
+				return format;
+			}
+		}
+
+		// Backup choice.
+		return avaliable[0];
+	}
+
+	VkPresentModeKHR Window::choose_swap_mode(std::span<VkPresentModeKHR> avaliable)
+	{
+		for (const auto& mode : avaliable)
+		{
+			if (mode == VK_PRESENT_MODE_MAILBOX_KHR)
+			{
+				return mode;
+			}
+		}
+
+		// Backup choice.
+		return VK_PRESENT_MODE_FIFO_KHR;
+	}
+
+	VkExtent2D Window::choose_swap_extent(const VkSurfaceCapabilitiesKHR& capabilities)
+	{
+		if (capabilities.currentExtent.width != UINT32_MAX)
+		{
+			return capabilities.currentExtent;
+		}
+		else
+		{
+			int width = 0, height = 0;
+			glfwGetFramebufferSize(m_window, &width, &height);
+
+			VkExtent2D extent =
+			{
+				.width = std::clamp(static_cast<std::uint32_t>(width), capabilities.minImageExtent.width, capabilities.maxImageExtent.width),
+			    .height = std::clamp(static_cast<std::uint32_t>(height), capabilities.minImageExtent.height, capabilities.maxImageExtent.height)
+			};
+
+			return extent;
+		}
 	}
 } // namespace vulkano
