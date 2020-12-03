@@ -33,7 +33,16 @@
     <ClCompile Include="src\vulkano\utils\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vulkano\utils\Utility.cpp">
+    <ClCompile Include="src\vulkano\core\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vulkano\pipeline\SwapChain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vulkano\pipeline\Instance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vulkano\graphics\Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +56,16 @@
     <ClInclude Include="src\vulkano\utils\Meta.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vulkano\utils\Utility.hpp">
+    <ClInclude Include="src\vulkano\core\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vulkano\pipeline\Instance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vulkano\pipeline\SwapChain.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vulkano\graphics\Image.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

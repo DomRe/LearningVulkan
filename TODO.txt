@@ -1,4 +1,5 @@
 - Proper Documentation.
 
-https://vulkan-tutorial.com/en/Drawing_a_triangle/Presentation/Swap_chain
-Choosing the right settings for the swap chain
+https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Fixed_functions
+
+images class, with custom deleter

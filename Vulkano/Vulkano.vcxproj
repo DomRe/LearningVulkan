@@ -84,6 +84,9 @@
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ModuleOutputFile />
+      <ModuleDependenciesFile />
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,6 +119,9 @@
       <PrecompiledHeaderOutputFile />
       <DebugInformationFormat>None</DebugInformationFormat>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ModuleOutputFile />
+      <ModuleDependenciesFile />
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,15 +137,21 @@
     <ClCompile Include="..\dependencies\c++20\fmt\src\os.cc" />
     <ClCompile Include="..\dependencies\stb\stb.c" />
     <ClCompile Include="src\sandbox\main.cpp" />
+    <ClCompile Include="src\vulkano\core\Shader.cpp" />
     <ClCompile Include="src\vulkano\core\Window.cpp" />
+    <ClCompile Include="src\vulkano\graphics\Image.cpp" />
+    <ClCompile Include="src\vulkano\pipeline\Instance.cpp" />
+    <ClCompile Include="src\vulkano\pipeline\SwapChain.cpp" />
     <ClCompile Include="src\vulkano\utils\Log.cpp" />
-    <ClCompile Include="src\vulkano\utils\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\vulkano\core\Shader.hpp" />
     <ClInclude Include="src\vulkano\core\Window.hpp" />
+    <ClInclude Include="src\vulkano\graphics\Image.hpp" />
+    <ClInclude Include="src\vulkano\pipeline\Instance.hpp" />
+    <ClInclude Include="src\vulkano\pipeline\SwapChain.hpp" />
     <ClInclude Include="src\vulkano\utils\Log.hpp" />
     <ClInclude Include="src\vulkano\utils\Meta.hpp" />
-    <ClInclude Include="src\vulkano\utils\Utility.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodeAnalysis.ruleset" />

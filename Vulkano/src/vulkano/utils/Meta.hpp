@@ -1,5 +1,5 @@
-#ifndef VULKANO_META_HPP_
-#define VULKANO_META_HPP_
+#ifndef VULKANO_UTILS_META_HPP_
+#define VULKANO_UTILS_META_HPP_
 
 #include <type_traits>
 

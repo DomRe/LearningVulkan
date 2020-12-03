@@ -1,13 +1,11 @@
-#ifndef VULKANO_WINDOW_HPP_
-#define VULKANO_WINDOW_HPP_
+#ifndef VULKANO_CORE_WINDOW_HPP_
+#define VULKANO_CORE_WINDOW_HPP_
 
-#include <string_view>
-#include <span>
+#include <memory>
 #include <vector>
 
-#include <GLFW/glfw3.h>
-
-#include "vulkano/utils/Utility.hpp"
+#include "vulkano/pipeline/Instance.hpp"
+#include "vulkano/pipeline/SwapChain.hpp"
 
 namespace vulkano
 {
@@ -34,41 +32,13 @@ namespace vulkano
 		void close();
 
 	private:
-		///
-		/// Stores information about SwapChain support that can be easily passed around.
-		///
-		struct SwapChainInfo
-		{
-			VkSurfaceCapabilitiesKHR capabilities;
-
-			std::vector<VkSurfaceFormatKHR> formats;
-			std::vector<VkPresentModeKHR> present_modes;
-		};
-
 		Window() = delete;
 
-		[[nodiscard]] QueueFamilyIndexs get_family_indexs(VkPhysicalDevice device);
-		[[nodiscard]] const bool valid_device(VkPhysicalDevice device, std::span<const char*> req_extensions);
-		[[nodiscard]] SwapChainInfo query_swap_chain(VkPhysicalDevice device);
-		[[nodiscard]] VkSurfaceFormatKHR choose_swap_format(std::span<VkSurfaceFormatKHR> avaliable);
-		[[nodiscard]] VkPresentModeKHR choose_swap_mode(std::span<VkPresentModeKHR> avaliable);
-		[[nodiscard]] VkExtent2D choose_swap_extent(const VkSurfaceCapabilitiesKHR& capabilities);
-
 	private:
-		bool m_debug_mode;
 		GLFWwindow* m_window;
-		VkInstance m_vk_instance;
-		VkDebugUtilsMessengerEXT m_debug_messenger;
-		VkPhysicalDevice m_gpu;
-		VkDevice m_gpu_interface;
-		VkQueue m_graphics_queue;
-		VkSurfaceKHR m_surface;
-		VkQueue m_surface_queue;
-		VkSwapchainKHR m_swap_chain;
-		VkSurfaceFormatKHR m_swap_format;
-		VkPresentModeKHR m_swap_mode;
 
-		std::vector<VkImage> m_swapchain_images;
+		std::unique_ptr<Instance> m_instance;
+		std::unique_ptr<SwapChain> m_swapchain;
 	};
 } // namespace vulkano
 

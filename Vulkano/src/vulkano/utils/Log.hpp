@@ -1,5 +1,5 @@
-#ifndef VULKANO_LOG_HPP_
-#define VULKANO_LOG_HPP_
+#ifndef VULKANO_UTILS_LOG_HPP_
+#define VULKANO_UTILS_LOG_HPP_
 
 #include <iostream>
 #include <string_view>
