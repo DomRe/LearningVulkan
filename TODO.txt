@@ -1,5 +1,3 @@
 - Proper Documentation.
 
-https://vulkan-tutorial.com/Drawing_a_triangle/Graphics_pipeline_basics/Fixed_functions
-
-images class, with custom deleter
+https://vulkan-tutorial.com/en/Drawing_a_triangle/Graphics_pipeline_basics/Conclusion

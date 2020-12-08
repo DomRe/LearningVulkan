@@ -89,102 +89,104 @@ namespace vulkano
 				}
 			}
 
-			std::uint32_t device_count = 0;
-			vkEnumeratePhysicalDevices(m_vk_instance, &device_count, nullptr);
-
-			if (device_count == 0)
+			if (glfwCreateWindowSurface(m_vk_instance, settings.m_window, nullptr, &m_surface) != VK_SUCCESS)
 			{
-				VK_LOG(VK_THROW, "Failed to find a GPU that supports vulkan.");
+				VK_LOG(VK_THROW, "GLFW failed to create vulkan window surface.");
 			}
 			else
 			{
-				std::vector<VkPhysicalDevice> device_list(device_count);
-				vkEnumeratePhysicalDevices(m_vk_instance, &device_count, device_list.data());
+				std::uint32_t device_count = 0;
+				vkEnumeratePhysicalDevices(m_vk_instance, &device_count, nullptr);
 
-				// Required Extensions.
-				std::array<const char*, 1> req_extensions =
+				if (device_count == 0)
 				{
-					VK_KHR_SWAPCHAIN_EXTENSION_NAME
-				};
-
-				for (const auto& device : device_list)
-				{
-					if (valid_device(device, req_extensions))
-					{
-						m_gpu = device;
-						break;
-					}
-				}
-
-				if (!m_gpu)
-				{
-					VK_LOG(VK_THROW, "Failed to find a valid GPU.");
+					VK_LOG(VK_THROW, "Failed to find a GPU that supports vulkan.");
 				}
 				else
 				{
-					m_qfi = get_family_indexs(m_gpu);
+					std::vector<VkPhysicalDevice> device_list(device_count);
+					vkEnumeratePhysicalDevices(m_vk_instance, &device_count, device_list.data());
 
-					const constexpr float priority = 1.0f;
-					const std::array<VkDeviceQueueCreateInfo, 2> queue_infos =
+					// Required Extensions.
+					std::array<const char*, 1> req_extensions =
 					{
-						VkDeviceQueueCreateInfo
+						VK_KHR_SWAPCHAIN_EXTENSION_NAME
+					};
+
+					for (const auto& device : device_list)
+					{
+						if (valid_device(device, req_extensions))
 						{
-							.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
-							.pNext = nullptr,
-							.flags = VK_NULL_HANDLE,
-							.queueFamilyIndex = m_qfi.m_graphics.value(),
-							.queueCount = 1,
-							.pQueuePriorities = &priority
-						},
-						VkDeviceQueueCreateInfo
-						{
-							.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
-							.pNext = nullptr,
-							.flags = VK_NULL_HANDLE,
-							.queueFamilyIndex = m_qfi.m_present_to_surface.value(),
-							.queueCount = 1,
-							.pQueuePriorities = &priority
+							m_gpu = device;
+							break;
 						}
-					};
+					}
 
-					// Layers are depreciated in Vulkan 1.2 for VkDeviceCreateInfo.
-					VkPhysicalDeviceFeatures gpu_features = {};
-					VkDeviceCreateInfo gpu_device_info
+					if (!m_gpu)
 					{
-						.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
-						.pNext = nullptr,
-						.flags = VK_NULL_HANDLE,
-						.queueCreateInfoCount = static_cast<std::uint32_t>(queue_infos.size()),
-						.pQueueCreateInfos = queue_infos.data(),
-						.enabledExtensionCount = static_cast<std::uint32_t>(req_extensions.size()),
-						.ppEnabledExtensionNames = req_extensions.data(),
-						.pEnabledFeatures = &gpu_features
-					};
-
-					if (m_debug_mode)
-					{
-						gpu_device_info.enabledLayerCount = static_cast<std::uint32_t>(layer_names.size());
-						gpu_device_info.ppEnabledLayerNames = layer_names.data();
+						VK_LOG(VK_THROW, "Failed to find a valid GPU.");
 					}
 					else
 					{
-						gpu_device_info.enabledLayerCount = VK_NULL_HANDLE;
-						gpu_device_info.ppEnabledLayerNames = nullptr;
-					}
+						m_qfi = get_family_indexs(m_gpu);
 
-					if (vkCreateDevice(m_gpu, &gpu_device_info, nullptr, &m_gpu_interface) != VK_SUCCESS)
-					{
-						VK_LOG(VK_THROW, "Failed to create GPU logical device.");
-					}
-					else
-					{
-						vkGetDeviceQueue(m_gpu_interface, m_qfi.m_graphics.value(), 0, &m_graphics_queue);
-						vkGetDeviceQueue(m_gpu_interface, m_qfi.m_present_to_surface.value(), 0, &m_surface_queue);
-					}
+						const constexpr float priority = 1.0f;
+						const std::array<VkDeviceQueueCreateInfo, 2> queue_infos =
+						{
+							VkDeviceQueueCreateInfo
+							{
+								.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
+								.pNext = nullptr,
+								.flags = VK_NULL_HANDLE,
+								.queueFamilyIndex = m_qfi.m_graphics.value(),
+								.queueCount = 1,
+								.pQueuePriorities = &priority
+							},
+							VkDeviceQueueCreateInfo
+							{
+								.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
+								.pNext = nullptr,
+								.flags = VK_NULL_HANDLE,
+								.queueFamilyIndex = m_qfi.m_present_to_surface.value(),
+								.queueCount = 1,
+								.pQueuePriorities = &priority
+							}
+						};
 
-					if (glfwCreateWindowSurface(m_vk_instance, settings.m_window, nullptr, &m_surface) != VK_SUCCESS)
-					{
-						VK_LOG(VK_THROW, "GLFW failed to create vulkan window surface.");
+						// Layers are depreciated in Vulkan 1.2 for VkDeviceCreateInfo.
+						VkPhysicalDeviceFeatures gpu_features = {};
+						VkDeviceCreateInfo gpu_device_info
+						{
+							.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
+							.pNext = nullptr,
+							.flags = VK_NULL_HANDLE,
+							.queueCreateInfoCount = static_cast<std::uint32_t>(queue_infos.size()),
+							.pQueueCreateInfos = queue_infos.data(),
+							.enabledExtensionCount = static_cast<std::uint32_t>(req_extensions.size()),
+							.ppEnabledExtensionNames = req_extensions.data(),
+							.pEnabledFeatures = &gpu_features
+						};
+
+						if (m_debug_mode)
+						{
+							gpu_device_info.enabledLayerCount = static_cast<std::uint32_t>(layer_names.size());
+							gpu_device_info.ppEnabledLayerNames = layer_names.data();
+						}
+						else
+						{
+							gpu_device_info.enabledLayerCount = VK_NULL_HANDLE;
+							gpu_device_info.ppEnabledLayerNames = nullptr;
+						}
+
+						if (vkCreateDevice(m_gpu, &gpu_device_info, nullptr, &m_gpu_interface) != VK_SUCCESS)
+						{
+							VK_LOG(VK_THROW, "Failed to create GPU logical device.");
+						}
+						else
+						{
+							vkGetDeviceQueue(m_gpu_interface, m_qfi.m_graphics.value(), 0, &m_graphics_queue);
+							vkGetDeviceQueue(m_gpu_interface, m_qfi.m_present_to_surface.value(), 0, &m_surface_queue);
+						}
 					}
 				}
 			}

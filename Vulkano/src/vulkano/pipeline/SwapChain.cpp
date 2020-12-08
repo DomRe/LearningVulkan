@@ -12,10 +12,10 @@ namespace vulkano
 		return (!m_formats.empty()) && (!m_present_modes.empty());
 	}
 
-	SwapChain::SwapChain(Instance* instance)
-	    : m_swap_chain {nullptr}
+	SwapChain::SwapChain(std::shared_ptr<Instance> instance, const glm::vec2& framebuffer_size)
+	    : m_instance {instance}, m_swap_chain {nullptr}, m_framebuffer_size {framebuffer_size}
 	{
-		auto swap_chain_info = query_swap_chain(instance);
+		auto swap_chain_info = query_swap_chain();
 		if (!swap_chain_info.is_valid())
 		{
 			VK_LOG(VK_THROW, "Provided physical device does not support swapchain.");
@@ -39,7 +39,7 @@ namespace vulkano
 			    .sType            = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
 			    .pNext            = nullptr,
 			    .flags            = 0,
-			    .surface          = instance->surface(),
+			    .surface          = m_instance->surface(),
 			    .minImageCount    = image_count,
 			    .imageFormat      = m_image_format,
 			    .imageColorSpace  = m_format.colorSpace,
@@ -52,7 +52,7 @@ namespace vulkano
 			    .clipped          = VK_TRUE,
 			    .oldSwapchain     = VK_NULL_HANDLE};
 
-			std::array<std::uint32_t, 2> qfi_indexs = {instance->qfi().m_graphics.value(), instance->qfi().m_present_to_surface.value()};
+			std::array<std::uint32_t, 2> qfi_indexs = {m_instance->qfi().m_graphics.value(), m_instance->qfi().m_present_to_surface.value()};
 			if (qfi_indexs[0] != qfi_indexs[1])
 			{
 				create_swapchain_info.imageSharingMode      = VK_SHARING_MODE_CONCURRENT;
@@ -66,46 +66,27 @@ namespace vulkano
 				create_swapchain_info.pQueueFamilyIndices   = nullptr;
 			}
 
-			if (vkCreateSwapchainKHR(instance->logical_device(), &create_swapchain_info, nullptr, &m_swap_chain) != VK_SUCCESS)
+			if (vkCreateSwapchainKHR(m_instance->logical_device(), &create_swapchain_info, nullptr, &m_swap_chain) != VK_SUCCESS)
 			{
 				VK_LOG(VK_THROW, "Failed to create window swap chain.");
 			}
 			else
 			{
-				vkGetSwapchainImagesKHR(instance->logical_device(), m_swap_chain, &image_count, nullptr);
+				vkGetSwapchainImagesKHR(m_instance->logical_device(), m_swap_chain, &image_count, nullptr);
 
+				std::vector<VkImage> swap_imgs {image_count};
 				m_images.resize(image_count);
-				vkGetSwapchainImagesKHR(instance->logical_device(), m_swap_chain, &image_count, m_images.data());
 
-				m_image_views.resize(m_images.size());
-				unsigned int counter = 0;
-				for (auto& image : m_images)
+				vkGetSwapchainImagesKHR(m_instance->logical_device(), m_swap_chain, &image_count, swap_imgs.data());
+
+				for (std::size_t i = 0; i < image_count; i++)
 				{
-					VkImageViewCreateInfo image_view_info {
-					    .sType    = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
-					    .pNext    = nullptr,
-					    .flags    = VK_NULL_HANDLE,
-					    .image    = image,
-					    .viewType = VK_IMAGE_VIEW_TYPE_2D,
-					    .format   = m_image_format};
-
-					image_view_info.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-					image_view_info.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-					image_view_info.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-					image_view_info.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-
-					image_view_info.subresourceRange.aspectMask     = VK_IMAGE_ASPECT_COLOR_BIT;
-					image_view_info.subresourceRange.baseMipLevel   = 0;
-					image_view_info.subresourceRange.levelCount     = 1;
-					image_view_info.subresourceRange.baseArrayLayer = 0;
-					image_view_info.subresourceRange.layerCount     = 1;
-
-					if (vkCreateImageView(instance->logical_device(), &image_view_info, nullptr, &m_image_views[counter]) != VK_SUCCESS)
+					ImageInfo info
 					{
-						VK_LOG(VK_THROW, "Failed to create image view: {0}.", counter);
-					}
-
-					counter++;
+						.m_format = m_image_format,
+						.m_type = VK_IMAGE_VIEW_TYPE_2D
+					};
+					m_images[i] = std::make_unique<Image>(info, swap_imgs[i]);
 				}
 			}
 		}
@@ -113,39 +94,50 @@ namespace vulkano
 
 	SwapChain::~SwapChain()
 	{
-		for (auto& image_view : m_image_views)
-		{
-			vkDestroyImageView(instance->logical_device(), image_view, nullptr);
-		}
-
-		vkDestroySwapchainKHR(instance->logical_device(), m_swap_chain, nullptr);
+		m_images.clear();
+		vkDestroySwapchainKHR(m_instance->logical_device(), m_swap_chain, nullptr);
 	}
 
 	void SwapChain::recreate()
 	{
 	}
 
-	SwapChainInfo SwapChain::query_swap_chain(Instance* instance)
+	const VkExtent2D* SwapChain::extent()
+	{
+		return &m_extent;
+	}
+
+	std::shared_ptr<Instance> SwapChain::instance_used()
+	{
+		return m_instance;
+	}
+
+	const VkFormat SwapChain::image_format() const
+	{
+		return m_image_format;
+	}
+
+	SwapChainInfo SwapChain::query_swap_chain()
 	{
 		SwapChainInfo info;
-		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(instance->physical_device(), instance->surface(), &info.m_capabilities);
+		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_instance->physical_device(), m_instance->surface(), &info.m_capabilities);
 
 		std::uint32_t surface_format_count;
-		vkGetPhysicalDeviceSurfaceFormatsKHR(instance->physical_device(), instance->surface(), &surface_format_count, nullptr);
+		vkGetPhysicalDeviceSurfaceFormatsKHR(m_instance->physical_device(), m_instance->surface(), &surface_format_count, nullptr);
 
 		if (surface_format_count != 0)
 		{
 			info.m_formats.resize(surface_format_count);
-			vkGetPhysicalDeviceSurfaceFormatsKHR(instance->physical_device(), instance->surface(), &surface_format_count, info.m_formats.data());
+			vkGetPhysicalDeviceSurfaceFormatsKHR(m_instance->physical_device(), m_instance->surface(), &surface_format_count, info.m_formats.data());
 		}
 
 		std::uint32_t presentation_mode_count;
-		vkGetPhysicalDeviceSurfacePresentModesKHR(instance->physical_device(), instance->surface(), &presentation_mode_count, nullptr);
+		vkGetPhysicalDeviceSurfacePresentModesKHR(m_instance->physical_device(), m_instance->surface(), &presentation_mode_count, nullptr);
 
 		if (presentation_mode_count != 0)
 		{
 			info.m_present_modes.resize(presentation_mode_count);
-			vkGetPhysicalDeviceSurfacePresentModesKHR(instance->physical_device(), instance->surface(), &presentation_mode_count, info.m_present_modes.data());
+			vkGetPhysicalDeviceSurfacePresentModesKHR(m_instance->physical_device(), m_instance->surface(), &presentation_mode_count, info.m_present_modes.data());
 		}
 
 		return std::move(info);
@@ -187,13 +179,10 @@ namespace vulkano
 		}
 		else
 		{
-			int width = 0, height = 0;
-			glfwGetFramebufferSize(m_window, &width, &height);
-
 			VkExtent2D extent =
 			    {
-				.width  = std::clamp(static_cast<std::uint32_t>(width), capabilities.minImageExtent.width, capabilities.maxImageExtent.width),
-				.height = std::clamp(static_cast<std::uint32_t>(height), capabilities.minImageExtent.height, capabilities.maxImageExtent.height)};
+				.width  = std::clamp(static_cast<std::uint32_t>(m_framebuffer_size.x), capabilities.minImageExtent.width, capabilities.maxImageExtent.width),
+				.height = std::clamp(static_cast<std::uint32_t>(m_framebuffer_size.y), capabilities.minImageExtent.height, capabilities.maxImageExtent.height)};
 
 			return extent;
 		}

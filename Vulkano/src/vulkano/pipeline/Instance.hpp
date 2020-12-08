@@ -3,6 +3,7 @@
 
 #include <optional>
 #include <span>
+#include <vector>
 
 #include <GLFW/glfw3.h>
 

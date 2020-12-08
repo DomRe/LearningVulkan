@@ -33,7 +33,11 @@ namespace vulkano
 		};
 		// clang-format on
 
-		m_instance = std::make_unique<Instance>(instance_settings);
+		m_instance = std::make_shared<Instance>(instance_settings);
+
+		int w = 0, h = 0;
+		glfwGetFramebufferSize(m_window, &w, &h);
+		m_swapchain = std::make_shared<SwapChain>(m_instance.get(), glm::vec2 {w, h});
 	}
 
 	Window::~Window()

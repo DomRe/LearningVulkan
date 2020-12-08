@@ -37,8 +37,8 @@ namespace vulkano
 	private:
 		GLFWwindow* m_window;
 
-		std::unique_ptr<Instance> m_instance;
-		std::unique_ptr<SwapChain> m_swapchain;
+		std::shared_ptr<Instance> m_instance;
+		std::shared_ptr<SwapChain> m_swapchain;
 	};
 } // namespace vulkano
 

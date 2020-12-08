@@ -46,6 +46,19 @@ namespace vulkano
 
 		vkDestroyShaderModule(m_logical, vert_shader_module, nullptr);
 		vkDestroyShaderModule(m_logical, frag_shader_module, nullptr);
+
+		// clang-format off
+		VkPipelineVertexInputStateCreateInfo vertex_input_info 
+		{
+			.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
+			.pNext = nullptr,
+			.flags = VK_NULL_HANDLE,
+			.vertexBindingDescriptionCount = 0,
+			.pVertexBindingDescriptions = nullptr,
+			.vertexAttributeDescriptionCount = 0,
+			.pVertexAttributeDescriptions = nullptr
+		};
+		// clang-format on
 	}
 
 	Shader::~Shader()

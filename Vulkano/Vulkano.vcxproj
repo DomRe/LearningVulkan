@@ -136,6 +136,7 @@
     <ClCompile Include="..\dependencies\c++20\fmt\src\format.cc" />
     <ClCompile Include="..\dependencies\c++20\fmt\src\os.cc" />
     <ClCompile Include="..\dependencies\stb\stb.c" />
+    <ClCompile Include="src\vulkano\pipeline\Pipeline.cpp" />
     <ClCompile Include="src\sandbox\main.cpp" />
     <ClCompile Include="src\vulkano\core\Shader.cpp" />
     <ClCompile Include="src\vulkano\core\Window.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="src\vulkano\utils\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\vulkano\pipeline\Pipeline.hpp" />
     <ClInclude Include="src\vulkano\core\Shader.hpp" />
     <ClInclude Include="src\vulkano\core\Window.hpp" />
     <ClInclude Include="src\vulkano\graphics\Image.hpp" />

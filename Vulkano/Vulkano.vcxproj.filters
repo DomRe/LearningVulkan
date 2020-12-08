@@ -45,6 +45,9 @@
     <ClCompile Include="src\vulkano\graphics\Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vulkano\pipeline\Pipeline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vulkano\core\Window.hpp">
@@ -66,6 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\vulkano\graphics\Image.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vulkano\pipeline\Pipeline.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
