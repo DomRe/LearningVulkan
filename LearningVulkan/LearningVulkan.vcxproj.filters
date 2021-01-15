@@ -21,7 +21,7 @@
     <ClCompile Include="..\dependencies\stb\stb.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vulkano\core\Window.cpp">
+    <ClCompile Include="src\LearningVulkan\core\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\dependencies\c++20\fmt\src\format.cc">
@@ -30,48 +30,48 @@
     <ClCompile Include="..\dependencies\c++20\fmt\src\os.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vulkano\utils\Log.cpp">
+    <ClCompile Include="src\LearningVulkan\utils\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vulkano\core\Shader.cpp">
+    <ClCompile Include="src\LearningVulkan\core\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vulkano\pipeline\SwapChain.cpp">
+    <ClCompile Include="src\LearningVulkan\pipeline\SwapChain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vulkano\pipeline\Instance.cpp">
+    <ClCompile Include="src\LearningVulkan\pipeline\Instance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vulkano\graphics\Image.cpp">
+    <ClCompile Include="src\LearningVulkan\graphics\Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vulkano\pipeline\Pipeline.cpp">
+    <ClCompile Include="src\LearningVulkan\pipeline\Pipeline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\vulkano\core\Window.hpp">
+    <ClInclude Include="src\LearningVulkan\core\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vulkano\utils\Log.hpp">
+    <ClInclude Include="src\LearningVulkan\utils\Log.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vulkano\utils\Meta.hpp">
+    <ClInclude Include="src\LearningVulkan\utils\Meta.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vulkano\core\Shader.hpp">
+    <ClInclude Include="src\LearningVulkan\core\Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vulkano\pipeline\Instance.hpp">
+    <ClInclude Include="src\LearningVulkan\pipeline\Instance.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vulkano\pipeline\SwapChain.hpp">
+    <ClInclude Include="src\LearningVulkan\pipeline\SwapChain.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vulkano\graphics\Image.hpp">
+    <ClInclude Include="src\LearningVulkan\graphics\Image.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vulkano\pipeline\Pipeline.hpp">
+    <ClInclude Include="src\LearningVulkan\pipeline\Pipeline.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

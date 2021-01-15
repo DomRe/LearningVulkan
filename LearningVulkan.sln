@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30615.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vulkano", "Vulkano\Vulkano.vcxproj", "{BC0B1211-F9B3-423D-BF0D-69FE6CB2B159}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LearningVulkan", "LearningVulkan\LearningVulkan.vcxproj", "{BC0B1211-F9B3-423D-BF0D-69FE6CB2B159}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

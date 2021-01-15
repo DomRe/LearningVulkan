@@ -14,7 +14,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{bc0b1211-f9b3-423d-bf0d-69fe6cb2b159}</ProjectGuid>
-    <RootNamespace>Vulkano</RootNamespace>
+    <RootNamespace>LearningVulkan</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -50,16 +50,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)/Vulkano/bin/$(Configuration)/</OutDir>
-    <IntDir>$(SolutionDir)/Vulkano/build/$(Configuration)/</IntDir>
+    <OutDir>$(SolutionDir)/LearningVulkan/bin/$(Configuration)/</OutDir>
+    <IntDir>$(SolutionDir)/LearningVulkan/build/$(Configuration)/</IntDir>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <CopyCppRuntimeToOutputDir>true</CopyCppRuntimeToOutputDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)/Vulkano/bin/$(Configuration)/</OutDir>
-    <IntDir>$(SolutionDir)/Vulkano/build/$(Configuration)/</IntDir>
+    <OutDir>$(SolutionDir)/LearningVulkan/bin/$(Configuration)/</OutDir>
+    <IntDir>$(SolutionDir)/LearningVulkan/build/$(Configuration)/</IntDir>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <CopyCppRuntimeToOutputDir>true</CopyCppRuntimeToOutputDir>
@@ -136,24 +136,24 @@
     <ClCompile Include="..\dependencies\c++20\fmt\src\format.cc" />
     <ClCompile Include="..\dependencies\c++20\fmt\src\os.cc" />
     <ClCompile Include="..\dependencies\stb\stb.c" />
-    <ClCompile Include="src\vulkano\pipeline\Pipeline.cpp" />
+    <ClCompile Include="src\LearningVulkan\pipeline\Pipeline.cpp" />
     <ClCompile Include="src\sandbox\main.cpp" />
-    <ClCompile Include="src\vulkano\core\Shader.cpp" />
-    <ClCompile Include="src\vulkano\core\Window.cpp" />
-    <ClCompile Include="src\vulkano\graphics\Image.cpp" />
-    <ClCompile Include="src\vulkano\pipeline\Instance.cpp" />
-    <ClCompile Include="src\vulkano\pipeline\SwapChain.cpp" />
-    <ClCompile Include="src\vulkano\utils\Log.cpp" />
+    <ClCompile Include="src\LearningVulkan\core\Shader.cpp" />
+    <ClCompile Include="src\LearningVulkan\core\Window.cpp" />
+    <ClCompile Include="src\LearningVulkan\graphics\Image.cpp" />
+    <ClCompile Include="src\LearningVulkan\pipeline\Instance.cpp" />
+    <ClCompile Include="src\LearningVulkan\pipeline\SwapChain.cpp" />
+    <ClCompile Include="src\LearningVulkan\utils\Log.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\vulkano\pipeline\Pipeline.hpp" />
-    <ClInclude Include="src\vulkano\core\Shader.hpp" />
-    <ClInclude Include="src\vulkano\core\Window.hpp" />
-    <ClInclude Include="src\vulkano\graphics\Image.hpp" />
-    <ClInclude Include="src\vulkano\pipeline\Instance.hpp" />
-    <ClInclude Include="src\vulkano\pipeline\SwapChain.hpp" />
-    <ClInclude Include="src\vulkano\utils\Log.hpp" />
-    <ClInclude Include="src\vulkano\utils\Meta.hpp" />
+    <ClInclude Include="src\LearningVulkan\pipeline\Pipeline.hpp" />
+    <ClInclude Include="src\LearningVulkan\core\Shader.hpp" />
+    <ClInclude Include="src\LearningVulkan\core\Window.hpp" />
+    <ClInclude Include="src\LearningVulkan\graphics\Image.hpp" />
+    <ClInclude Include="src\LearningVulkan\pipeline\Instance.hpp" />
+    <ClInclude Include="src\LearningVulkan\pipeline\SwapChain.hpp" />
+    <ClInclude Include="src\LearningVulkan\utils\Log.hpp" />
+    <ClInclude Include="src\LearningVulkan\utils\Meta.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\CodeAnalysis.ruleset" />
@@ -166,6 +166,6 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <PropertyGroup Condition="'$(Language)'=='C++'">
-    <CAExcludePath>D:\git\Vulkano\dependencies\stb\include;D:\git\Vulkano\dependencies\glm\include;D:\git\Vulkano\dependencies\glfw\include;D:\Vulkan\1.2.154.1\Include;D:\git\Vulkano\dependencies\c++20\fmt\include;D:\git\Vulkano\dependencies\c++20\fmt\src;$(CAExcludePath)</CAExcludePath>
+    <CAExcludePath>D:\git\LearningVulkan\dependencies\stb\include;D:\git\LearningVulkan\dependencies\glm\include;D:\git\LearningVulkan\dependencies\glfw\include;D:\Vulkan\1.2.154.1\Include;D:\git\LearningVulkan\dependencies\c++20\fmt\include;D:\git\LearningVulkan\dependencies\c++20\fmt\src;$(CAExcludePath)</CAExcludePath>
   </PropertyGroup>
 </Project>
